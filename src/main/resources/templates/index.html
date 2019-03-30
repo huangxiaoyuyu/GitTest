@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+商品名称：<input id="goodsname"><br>
+上架时间：<input id="mindate">---><input id="maxdate"><br>
+<input type="button" value="搜索" onclick="sss()">
+<div id="show"></div>
+<script src="jquery.min.js"></script>
+<script>
+
+    function sss() {
+        $.ajax({
+            type:"post",
+            url:"queryGoods",
+            data:{
+                goodsname:$("#goodsname").val(),
+                mindate:$("#mindate").val(),
+                maxdate:$("#maxdate").val()
+            },
+            success:function(data){
+                $("#show").html(data)
+            }
+        })
+    }
+
+
+    $(function(){
+        sss();
+    })
+    
+
+
+    function updategoods(goodsid) {
+        location.href="querywheregoods?goodsid="+goodsid;
+    }
+
+    function toaddgoods() {
+        location.href="toaddgoods";
+    }
+
+    function deletegoods(goodsid){
+        $.ajax({
+            type:"post",
+            url:"deletegoods",
+            data:{
+                goodsid:goodsid
+            },
+            success:function(){
+                alert("删除成功")
+                location.href="toindex";
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

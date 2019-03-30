@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+    <input type='button' value='添加' th:onclick="toaddgoods()">
+    <tr  th:each="collect,iterStat : ${list}">
+        <th scope="row" th:text="${collect.goodsid}"></th>
+        <td th:text="${collect.goodsname}"></td>
+        <td th:text="${collect.goodsprice}"></td>
+        <td th:text="${{collect.goodsdate}}"></td>
+        <td>
+            <img th:src="${collect.photourl}" width="30px" height="30px"/>
+        </td>
+        <td th:text="${collect.attentionnumber}"></td>
+        <td>
+            <input type='button' value='修改' th:onclick="'updategoods('+${collect.goodsid}+')'">
+            <input type='button' value='删除' th:onclick="'deletegoods('+${collect.goodsid}+')'">
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.dao.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.pojo.Goods" >
+    <id column="goodsid" property="goodsid" jdbcType="INTEGER" />
+    <result column="goodsname" property="goodsname" jdbcType="VARCHAR" />
+    <result column="goodsprice" property="goodsprice" jdbcType="INTEGER" />
+    <result column="goodsdate" property="goodsdate" jdbcType="DATE" />
+    <result column="photourl" property="photourl" jdbcType="VARCHAR" />
+    <result column="attentionnumber" property="attentionnumber" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goodsid, goodsname, goodsprice, goodsdate, photourl, attentionnumber
+  </sql>
+
+  <select id="queryGoods" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_goods where 1=1
+    <if test="goodsname != null and goodsname !='' ">
+      and goodsname like '%${goodsname}%'
+    </if>
+    <if test="mindate != null and mindate !='' ">
+      and goodsdate > #{mindate}
+    </if>
+    <if test="maxdate != null and maxdate !='' ">
+      and goodsdate &lt; #{maxdate}
+    </if>
+
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_goods
+    where goodsid = #{goodsid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_goods
+    where goodsid = #{goodsid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jk.pojo.Goods" >
+    insert into t_goods (goodsid, goodsname, goodsprice, 
+      goodsdate, photourl, attentionnumber
+      )
+    values (#{goodsid,jdbcType=INTEGER}, #{goodsname,jdbcType=VARCHAR}, #{goodsprice,jdbcType=INTEGER}, 
+      #{goodsdate,jdbcType=DATE}, #{photourl,jdbcType=VARCHAR}, #{attentionnumber,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jk.pojo.Goods" >
+    insert into t_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsid != null" >
+        goodsid,
+      </if>
+      <if test="goodsname != null" >
+        goodsname,
+      </if>
+      <if test="goodsprice != null" >
+        goodsprice,
+      </if>
+      <if test="goodsdate != null" >
+        goodsdate,
+      </if>
+      <if test="photourl != null" >
+        photourl,
+      </if>
+      <if test="attentionnumber != null" >
+        attentionnumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsname != null" >
+        #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsprice != null" >
+        #{goodsprice,jdbcType=INTEGER},
+      </if>
+      <if test="goodsdate != null" >
+        #{goodsdate,jdbcType=DATE},
+      </if>
+      <if test="photourl != null" >
+        #{photourl,jdbcType=VARCHAR},
+      </if>
+      <if test="attentionnumber != null" >
+        #{attentionnumber,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jk.pojo.Goods" >
+    update t_goods
+    <set >
+      <if test="goodsname != null" >
+        goodsname = #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsprice != null" >
+        goodsprice = #{goodsprice,jdbcType=INTEGER},
+      </if>
+      <if test="goodsdate != null" >
+        goodsdate = #{goodsdate,jdbcType=DATE},
+      </if>
+      <if test="photourl != null" >
+        photourl = #{photourl,jdbcType=VARCHAR},
+      </if>
+      <if test="attentionnumber != null" >
+        attentionnumber = #{attentionnumber,jdbcType=INTEGER},
+      </if>
+    </set>
+    where goodsid = #{goodsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jk.pojo.Goods" >
+    update t_goods
+    set goodsname = #{goodsname,jdbcType=VARCHAR},
+      goodsprice = #{goodsprice,jdbcType=INTEGER},
+      goodsdate = #{goodsdate,jdbcType=DATE},
+      photourl = #{photourl,jdbcType=VARCHAR},
+      attentionnumber = #{attentionnumber,jdbcType=INTEGER}
+    where goodsid = #{goodsid,jdbcType=INTEGER}
+  </update>
+</mapper>

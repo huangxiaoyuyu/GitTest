@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="updateid">
+id:     <input readonly th:value="${goods.goodsid}" name="goodsid"/><br><br>
+商品名称:<input th:value="${goods.goodsname}" name="goodsname"/><br><br>
+商品价格:<input th:value="${goods.goodsprice}" name="goodsprice"/><br><br>
+上架时间:<input th:value="${{goods.goodsdate}}" name="goodsdate"/><br><br>
+
+
+    <img id="showimgurl" th:src="${goods.photourl}" width="60px" height="80px">
+    <br>
+    照片：<input type="file" id="imgp">
+    <input type="button" onclick='updatephoto()' value="确认使用">
+    <br><br>
+    url:    <input th:value="${goods.photourl}" id="tpaths" type="text" name="photourl"/><br><br>
+
+
+
+    关注人数:<input th:value="${goods.attentionnumber}" name="attentionnumber"/><br><br>
+        <input type="button" value="确认修改" th:onclick="qrxg()">
+</form>
+<script src="jquery.min.js"></script>
+<script>
+
+    function updatephoto(){
+        var formData = new FormData();
+        formData.append("userphoto", document.getElementById("imgp").files[0]);
+        $.ajax({
+            url: "uploadPhoto",
+            type: "POST",
+            data: formData,
+            /**
+             *必须false才会自动加上正确的Content-Type
+             */
+            contentType: false,
+            /**
+             * 必须false才会避开jQuery对 formdata 的默认处理
+             * XMLHttpRequest会对 formdata 进行正确的处理
+             */
+            processData: false,
+            success: function (data) {
+                alert(data)//图片地址
+//             1.显示图片------设置img标签的src属性为data------使用prop方法设置属性
+                $("#showimgurl").prop('src',data);
+//             2.将图片地址存储到form标签中的隐藏域中
+                $("#tpaths").val(data);
+            }
+        });
+    }
+
+
+
+    function qrxg(){
+        $.ajax({
+            type:"post",
+            url:"updategoods",
+            data:$("#updateid").serialize(),
+            success:function(){
+                alert("修改成功")
+                location.href="toindex";
+            }
+        })
+    }
+</script>
+</body>
+</html>
