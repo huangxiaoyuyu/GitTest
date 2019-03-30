@@ -90,7 +90,7 @@ public class GoodsController {
 
     @RequestMapping("test")
     public String test(){
-        return "testok";
+        return "testokkkkkkkkkkkk";
     }
 
 }
