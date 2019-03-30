@@ -88,4 +88,9 @@ public class GoodsController {
         return  "upload/"+onlyFileName;
     }
 
+    @RequestMapping("test")
+    public String test(){
+        return "testok";
+    }
+
 }
